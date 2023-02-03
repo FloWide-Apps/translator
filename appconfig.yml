@@ -1,0 +1,8 @@
+apps:
+  translator:
+    app_icon: ''
+    type: service
+    config:
+      entry_file: translator2.py
+      env: {}
+      cli_args: []
