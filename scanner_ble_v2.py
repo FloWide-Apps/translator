@@ -93,12 +93,12 @@ def translator_func(data, identifier, times):
         for i, tsdElement in enumerate(tsdData['data']):   # for each TSD element
             xdata = tsdElement['values']
             devUniqueDummyTsd['data'][i]['values'] = xdata[2];   # obtain unique ID (only devices with firmware 1.7.0 or newer), and update dummy TSD
-            bleAddr25 = binascii.hexlify( bytearray([(xdata[1] >> s & 0xFF) for s in (0,8,16,24)]) )   # obtain Bluetooth address
-            bleAddr01 = binascii.hexlify( bytearray([(xdata[0] >> s & 0xFF) for s in (0,8)]) )
+            bleAddr25 = binascii.hexlify( bytearray([(xdata[1] >> s & 0xFF) for s in (24,16,8,0)]) )   # obtain Bluetooth address
+            bleAddr01 = binascii.hexlify( bytearray([(xdata[0] >> s & 0xFF) for s in (8,0)]) )
             rssi = xdata[0] >> 16 & 0xFF   # obtain RSSI
             if rssi > 127:
                 rssi -= 256
-            bleAddrRssiDummyTsd['data'][i]['values'] = bleAddr25.decode() + bleAddr01.decode() + ':' + str(rssi)    # update dummy TSD with Bluetooth address and RSSI
+            bleAddrRssiDummyTsd['data'][i]['values'] = bleAddr01.decode() + bleAddr25.decode() + ':' + str(rssi)    # update dummy TSD with Bluetooth address and RSSI
             dummyScanCounter = (dummyScanCounter + 1) % 256   # generate dummy scan counter value
             dummyScanCounterDummyTsd['data'][i]['values'] = dummyScanCounter
 
